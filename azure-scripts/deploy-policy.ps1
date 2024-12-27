@@ -8,7 +8,7 @@ param (
 )
 
 # Log in to Azure using GitHub Actions' Managed Identity
-Connect-AzAccount -Identity
+#Connect-AzAccount -Identity
 
 # Read the policy rule and parameters from files
 $PolicyRule = Get-Content -Raw -Path $PolicyRulePath | ConvertFrom-Json
