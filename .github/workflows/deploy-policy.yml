@@ -23,7 +23,7 @@ jobs:
 
       - name: Install Azure PowerShell
         run: |
-          Install-Module -Name Az -Repository PSGallary -Force -Scope CurrentUser -AllowClobber
+          Install-Module -Name Az -Repository PSGallery -Force -Scope CurrentUser -AllowClobber
           Import-Module Az
 
       - name: Deploy and Assign Key Vault Policy
