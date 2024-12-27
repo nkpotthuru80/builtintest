@@ -19,7 +19,7 @@ New-AzPolicyDefinition -Name $PolicyDefinitionName `
     -DisplayName $PolicyDisplayName `
     -PolicyRule $PolicyRulePath `
     -Parameters $PolicyParametersPath `
-    -Mode All -PolicyType Custom
+    -Mode All
 
 Write-Output "Policy '$PolicyDisplayName' deployed successfully."
 
