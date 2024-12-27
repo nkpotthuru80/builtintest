@@ -24,6 +24,7 @@ jobs:
       - name: Install Azure PowerShell
         uses: azure/powershell@v2
         with:
+          inlineScript: "Get-AzContext"
           azPSVersion: latest
 
       - name: Deploy and Assign Key Vault Policy
