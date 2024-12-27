@@ -22,10 +22,9 @@ jobs:
           enable-AzPSSession: true
 
       - name: Install Azure PowerShell
-        uses: azure/powershell@v2
-        with:
-          inlineScript: "Get-AzContext"
-          azPSVersion: latest
+        run: |
+          Install-Module -Name Az -Repository PSGallary -Force -Scope CurrentUser -AllowClobber
+          Import-Module Az
 
       - name: Deploy and Assign Key Vault Policy
         shell: pwsh
