@@ -15,18 +15,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install Azure PowerShell
-        uses: azure/powershell@v1
-        with:
-          azPSVersion: latest
-
       - name: Log in to Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true
 
-      - name: Verify Files
-        run: ls -R
+      - name: Install Azure PowerShell
+        uses: azure/powershell@v2
+        with:
+          azPSVersion: latest
 
       - name: Deploy and Assign Key Vault Policy
         shell: pwsh
