@@ -25,9 +25,13 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Verify Files
+        run: ls -R
+
       - name: Deploy and Assign Key Vault Policy
+        shell: pwsh
         run: |
-          pwsh azure-scripts/deploy-policy.ps1 `
+          ./azure-scripts/deploy-policy.ps1 `
             -PolicyDefinitionName "KeyVaultSoftDeleteEnabled" `
             -PolicyDisplayName "Key Vault should have Soft Delete Enabled" `
             -PolicyRulePath "./builtin-policy.json" `
