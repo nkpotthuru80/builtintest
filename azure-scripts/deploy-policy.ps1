@@ -17,8 +17,8 @@ $PolicyParameters = Get-Content -Raw -Path $PolicyParametersPath | ConvertFrom-J
 # Deploy the policy definition
 New-AzPolicyDefinition -Name $PolicyDefinitionName `
     -DisplayName $PolicyDisplayName `
-    -PolicyRule $PolicyRule `
-    -Parameters $PolicyParameters `
+    -PolicyRule $PolicyRulePath `
+    -Parameters $PolicyParametersPath `
     -Mode All -PolicyType Custom
 
 Write-Output "Policy '$PolicyDisplayName' deployed successfully."
