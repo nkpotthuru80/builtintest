@@ -28,11 +28,7 @@ jobs:
 
       - name: Deploy and Assign Key Vault Policy
         shell: pwsh
+        env:
+            AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         run: |
           ./azure-scripts/deploy-policy.ps1 `
-            -PolicyDefinitionName "KeyVaultSoftDeleteEnabled" `
-            -PolicyDisplayName "Key Vault should have Soft Delete Enabled" `
-            -PolicyRulePath "./builtin-policy.json" `
-            -PolicyParametersPath "./builtin-policy.json" `
-            -AssignmentName "KeyVaultSoftDeleteEnabledAssignment" `
-            -Scope "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}"

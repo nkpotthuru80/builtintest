@@ -1,32 +1,27 @@
-param (
-    [string]$PolicyDefinitionName,
-    [string]$PolicyDisplayName,
-    [string]$PolicyRulePath,
-    [string]$PolicyParametersPath,
-    [string]$AssignmentName,
-    [string]$Scope
-)
-
-# Log in to Azure using GitHub Actions' Managed Identity
-#Connect-AzAccount -Identity
-
-# Read the policy rule and parameters from files
-$PolicyRule = Get-Content -Raw -Path $PolicyRulePath | ConvertFrom-Json
-$PolicyParameters = Get-Content -Raw -Path $PolicyParametersPath | ConvertFrom-Json
-
-# Deploy the policy definition
-New-AzPolicyDefinition -Name $PolicyDefinitionName `
-    -DisplayName $PolicyDisplayName `
-    -PolicyRule $PolicyRulePath `
-    -Parameters $PolicyParametersPath `
-    -Mode All
-
-Write-Output "Policy '$PolicyDisplayName' deployed successfully."
-
-# Assign the policy to the specified scope
-New-AzPolicyAssignment -Name $AssignmentName `
-    -PolicyDefinitionName $PolicyDefinitionName `
-    -Scope $Scope `
-    -PolicyParameterObject $PolicyParameters
-
-Write-Output "Policy '$PolicyDisplayName' assigned to scope '$Scope' with assignment name '$AssignmentName'."
+ # Import policy definition JSON from file
+ $policyContent = Get-Content -Path './builtin-policy.json' -Raw
+ $policyContent = $policyContent.Trim()
+ $policyDefinition = $policyContent | ConvertFrom-Json -Depth 10 
+ 
+ # Access specific properties and convert them to strings
+ $displayName = $policyDefinition.properties.displayName.ToString()
+ $policyRule = $policyDefinition.properties.policyRule | ConvertTo-Json -Compress -Depth 10
+ $description = $policyDefinition.properties.description.ToString()
+ 
+ # Create or update the policy definition
+ New-AzPolicyDefinition `
+   -Name $displayName `
+   -Policy $policyRule `
+   -Description $description `
+   -DisplayName $displayName `
+   -Mode Indexed `
+   -SubscriptionId $env:AZURE_SUBSCRIPTION_ID
+ 
+ #Get the Policy definition
+ $policy = Get-AzPolicyDefinition -Name $displayName
+ 
+ # Assign the policy
+ New-AzPolicyAssignment `
+   -Name "$displayName-Assignment" `
+   -PolicyDefinition $policy `
+   -Scope "/subscriptions/$env:AZURE_SUBSCRIPTION_ID"
