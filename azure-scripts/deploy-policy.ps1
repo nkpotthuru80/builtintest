@@ -22,8 +22,8 @@ New-AzPolicyDefinition -Name $PolicyDefinitionName `
 Write-Output "Policy '$PolicyDisplayName' deployed successfully."
 
 # Assign the policy to a specific scope
-$AssignmentName = "<AssignmentName>"
-$Scope = "/subscriptions/<SubscriptionID>"
+$AssignmentName = "KeyVaultEnableSsoftDeleteAssignment"
+$Scope = "/subscriptions/f147463c-0679-4251-8f65-6e4b481e4f07/resourceGroups/TestRG"
 $Parameters = @{}
 
 if ($PolicyParameters) {
