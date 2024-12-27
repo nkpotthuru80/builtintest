@@ -1,0 +1,36 @@
+name: Deploy and Assign Azure Key Vault Policy
+
+on:
+  push:
+    paths:
+      - 'azure-scripts/**'
+      - 'builtin-policy.json'
+      - '.github/workflows/deploy-policy.yml'
+
+jobs:
+  deploy-and-assign-policy:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Azure PowerShell
+        uses: azure/powershell@v1
+        with:
+          azPSVersion: latest
+
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy and Assign Key Vault Policy
+        run: |
+          pwsh azure-scripts/deploy-policy.ps1 `
+            -PolicyDefinitionName "KeyVaultSoftDeleteEnabled" `
+            -PolicyDisplayName "Key Vault should have Soft Delete Enabled" `
+            -PolicyRulePath "./builtin-policy.json" `
+            -PolicyParametersPath "./builtin-policy.json" `
+            -AssignmentName "KeyVaultSoftDeleteEnabledAssignment" `
+            -Scope "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}"
