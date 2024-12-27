@@ -1,0 +1,77 @@
+{
+  "displayName": "Key vaults should have soft delete enabled",
+  "name": "1e66c121-a66a-4b1f-9b83-0fd99bf0fc2d",
+  "parameters": {
+    "effect": {
+      "allowedValues": [
+        "Audit",
+        "Deny",
+        "Disabled"
+      ],
+      "defaultValue": "Audit",
+      "metadata": {
+        "additionalProperties": null,
+        "assignPermissions": null,
+        "description": "Enable or disable the execution of the policy",
+        "displayName": "Effect",
+        "strongType": null
+      },
+      "type": "String"
+    }
+  },
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "equals": "Microsoft.KeyVault/vaults",
+          "field": "type"
+        },
+        {
+          "not": {
+            "equals": "recover",
+            "field": "Microsoft.KeyVault/vaults/createMode"
+          }
+        },
+        {
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "less": "2019-09-01",
+                  "value": "[requestContext().apiVersion]"
+                },
+                {
+                  "anyOf": [
+                    {
+                      "equals": "false",
+                      "field": "Microsoft.KeyVault/vaults/enableSoftDelete"
+                    },
+                    {
+                      "exists": "false",
+                      "field": "Microsoft.KeyVault/vaults/enableSoftDelete"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "greaterOrEquals": "2019-09-01",
+                  "value": "[requestContext().apiVersion]"
+                },
+                {
+                  "equals": "false",
+                  "field": "Microsoft.KeyVault/vaults/enableSoftDelete"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "then": {
+      "effect": "[parameters('effect')]"
+    }
+  }
+}
