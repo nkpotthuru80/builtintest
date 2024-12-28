@@ -24,4 +24,4 @@
  New-AzPolicyAssignment `
    -Name "$displayName-Assignment" `
    -PolicyDefinition $policy `
-   -Scope "/subscriptions/f147463c-0679-4251-8f65-6e4b481e4f07ID"
+   -Scope "/subscriptions/f147463c-0679-4251-8f65-6e4b481e4f07"
