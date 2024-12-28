@@ -1,4 +1,5 @@
 {
+  "properties": {
   "displayName": "Key vaults should have soft delete enabled",
   "name": "1e66c121-a66a-4b1f-9b83-0fd99bf0fc2d",
   "parameters": {
@@ -73,5 +74,6 @@
     "then": {
       "effect": "[parameters('effect')]"
     }
+  }
   }
 }
