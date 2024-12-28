@@ -6,7 +6,7 @@
  # Access specific properties and convert them to strings
  $displayName = $policyDefinition.properties.displayName.ToString()
  $policyRule = $policyDefinition.properties.policyRule | ConvertTo-Json -Compress -Depth 100
- $description = $policyDefinition.properties.description.ToString()
+ $description = $policyDefinition.properties.displayName.ToString()
  
  # Create or update the policy definition
  New-AzPolicyDefinition `
