@@ -15,7 +15,7 @@
    -Description $description `
    -DisplayName $displayName `
    -Mode Indexed `
-   -SubscriptionId $env:AZURE_SUBSCRIPTION_ID
+   -SubscriptionId 'f147463c-0679-4251-8f65-6e4b481e4f07'
  
  #Get the Policy definition
  $policy = Get-AzPolicyDefinition -Name $displayName
@@ -24,4 +24,4 @@
  New-AzPolicyAssignment `
    -Name "$displayName-Assignment" `
    -PolicyDefinition $policy `
-   -Scope "/subscriptions/$env:AZURE_SUBSCRIPTION_ID"
+   -Scope "/subscriptions/f147463c-0679-4251-8f65-6e4b481e4f07ID"
